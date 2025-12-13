@@ -1,49 +1,55 @@
-import { ChatArticle, Container, RegisterRequired, SearchInput, Separator } from '@/components';
-import { paths } from '@/constants/constans';
+import {
+    AddChannelDialog,
+    ChatArticle,
+    Container,
+    RegisterRequired,
+    SearchInput,
+    Separator,
+    Spinner,
+} from '@/components';
+import { channelService } from '@/firebase/channelService';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import type { FC } from 'react';
-
-const chatItems = [
-    {
-        id: crypto.randomUUID(),
-        title: 'Cave',
-        url: `${paths.channels}/cave`,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'Fighters',
-        url: `${paths.channels}/fighters`,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'Coffee drinkers',
-        url: `${paths.channels}/coffee-drinkers`,
-    },
-];
+import { type FC } from 'react';
 
 export const ChatPage: FC = () => {
     const isAuth = useAuthStore((state) => state.isAuth);
+    const user = useAuthStore((state) => state.user);
+
+    const { data: channels, isLoading } = useQuery({
+        queryKey: ['channels', user?.channelIds],
+        queryFn: channelService.getChannelsByIds,
+        enabled: !!user?.channelIds,
+    });
 
     return (
         <section className="h-full">
             <Container>
                 <div
                     className={clsx(
-                        'flex',
-                        !isAuth && 'justify-center items-center h-[700px]',
+                        'flex items-center',
+                        !isAuth && 'justify-center h-[700px]',
                         isAuth && 'h-full flex-col gap-6',
                     )}>
                     {isAuth && (
                         <>
                             <SearchInput />
 
+                            <AddChannelDialog />
+                            
                             <Separator />
 
-                            <ul className="flex flex-col gap-4">
-                                {chatItems.map((chat) => (
-                                    <li>
-                                        <ChatArticle data={chat} />
+                            {isLoading && (
+                                <div className="h-[300px] flex justify-center items-center">
+                                    <Spinner className="size-10" />
+                                </div>
+                            )}
+
+                            <ul className="flex flex-col gap-4 w-full">
+                                {channels?.map((c) => (
+                                    <li key={c.id}>
+                                        <ChatArticle data={c} />
                                     </li>
                                 ))}
                             </ul>

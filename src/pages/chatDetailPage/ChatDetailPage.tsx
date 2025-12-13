@@ -28,7 +28,7 @@ const messages = [
         mesId: 2,
         message: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         user: {
-            id: 'ce7b595c-f00a-4f64-8c2b-f59ad15e8a9b',
+            id: 'vhNfBrMn8bXY7JJTvsstFTu5Dkk2',
             name: 'Aki',
         },
     },
@@ -61,7 +61,7 @@ const messages = [
         mesId: 6,
         message: 'Good 👍',
         user: {
-            id: 'ce7b595c-f00a-4f64-8c2b-f59ad15e8a9b',
+            id: 'vhNfBrMn8bXY7JJTvsstFTu5Dkk2',
             name: 'Aki',
         },
     },
@@ -78,13 +78,13 @@ export const ChatDetailPage: FC = () => {
     };
 
     const enterMesHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !e.shiftKey) {
             sendMesHandler(inputMes);
         }
     };
 
     return (
-        <section className="h-full overflow-y-scroll">
+        <section className="h-full overflow-y-auto">
             <Container>
                 <div className="relative h-screen flex flex-col justify-between">
                     <div className="flex gap-3 items-center p-2 border-b bg-white">
@@ -106,7 +106,7 @@ export const ChatDetailPage: FC = () => {
 
                     <div className="h-fit flex flex-col gap-5 border border-red-600">
                         {messages.map((mes) =>
-                            currentUser?.id === mes.user.id ? (
+                            currentUser?.uid === mes.user.id ? (
                                 <div key={mes.mesId} className="flex flex-row-reverse gap-2 w-full">
                                     <Avatar className="size-10 self-end">
                                         <AvatarImage src="" />

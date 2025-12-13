@@ -6,6 +6,7 @@ export const paths = {
     channelsDetail: '/channels/:slug',
     notFound: '*',
     register: '/auth/registration',
+    login: '/auth/login',
 };
 
 export const sidebarItems = [

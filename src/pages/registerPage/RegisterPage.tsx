@@ -35,7 +35,7 @@ export const RegisterPage: FC = () => {
             });
             return false;
         }
-        user({ id: crypto.randomUUID(), name: data.name });
+        user({ uid: crypto.randomUUID(), displayName: data.name });
         navigate('/');
     };
     const password = watch('password', '');

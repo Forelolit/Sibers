@@ -27,6 +27,10 @@ export const Router = createBrowserRouter([
                 path: paths.register,
                 element: <Pages.RegisterPage />,
             },
+            {
+                path: paths.login,
+                element: <Pages.LoginPage />,
+            },
         ],
     },
 ]);

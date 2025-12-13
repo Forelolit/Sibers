@@ -26,7 +26,7 @@ export const AppSidebar: FC = () => {
         <Sidebar>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>{sidebarItems[0].title}</SidebarGroupLabel>
+                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {sidebarItems.map((item) => (
@@ -49,10 +49,10 @@ export const AppSidebar: FC = () => {
                         <>
                             <div className="flex gap-2 items-center">
                                 <Avatar className="size-12">
-                                    <AvatarImage src="" />
-                                    <AvatarFallback>{user?.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                    <AvatarImage src={user?.photoURL} />
+                                    <AvatarFallback>{user?.displayName?.slice(0, 2).toUpperCase()}</AvatarFallback>
                                 </Avatar>
-                                <p className="truncate max-w-20">{user?.name}</p>
+                                <p className="truncate max-w-20">{user?.displayName}</p>
                             </div>
                             <Button onClick={() => logout()}>Logout</Button>
                         </>

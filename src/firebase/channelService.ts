@@ -1,10 +1,10 @@
 import { db } from './firebase';
 import { addDoc, collection, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
-import type { ChannelType } from '@/types/channeInterface';
+import type { ChannelType, CreateChannelDto } from '@/types/channeInterface';
 import { userService } from './userService';
 import type { User } from '@/types/userInterface';
 
-const createChannel = async (channelData: ChannelType): Promise<ChannelType> => {
+const createChannel = async (channelData: CreateChannelDto): Promise<ChannelType> => {
     try {
         const docRef = await addDoc(collection(db, 'channels'), channelData);
         console.log('Doc created with ID:', docRef.id);

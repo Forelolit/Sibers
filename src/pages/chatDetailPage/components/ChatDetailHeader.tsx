@@ -33,7 +33,7 @@ export const ChatDetailHeader: FC<ChatDetailHeaderProps> = ({ channel, members, 
     const channelId = channel?.id ? channel.id : '';
 
     return (
-        <div className="z-20 sticky top-0 flex justify-between items-center p-2 border-b bg-white">
+        <div className="z-20 sticky top-0 flex justify-between items-center p-2 border-b bg-white rounded-b-xl">
             <div className="flex gap-3 items-center">
                 <Avatar className="size-12">
                     <AvatarImage src={channel?.channelImage} />

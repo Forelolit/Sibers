@@ -25,6 +25,8 @@ export const ChannelForInviteDialog: FC<ChannelForInviteDialogProps> = ({ userId
         try {
             await userService.addUserToChannel(userId, channelId);
             toast.success('User added to channel');
+
+            //FIXME сделать проверку на наличие юзера в канале
         } catch (error) {
             toast.error(error.message);
         }

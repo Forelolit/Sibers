@@ -16,17 +16,10 @@ export const Router = createBrowserRouter([
                 path: paths.notFound,
                 element: <Pages.NotFoundPage />,
             },
-            {
-                path: paths.channels,
-                element: <Pages.ChatPage />,
-            },
+
             {
                 path: paths.channelsDetail,
                 element: <Pages.ChatDetailPage />,
-            },
-            {
-                path: paths.register,
-                element: <Pages.RegisterPage />,
             },
             {
                 path: paths.login,
@@ -38,6 +31,10 @@ export const Router = createBrowserRouter([
                     {
                         path: paths.channelsDetail,
                         element: <Pages.ChatDetailPage />,
+                    },
+                    {
+                        path: paths.channels,
+                        element: <Pages.ChatPage />,
                     },
                 ],
             },

@@ -7,7 +7,7 @@ export const Layout = () => {
         <>
             <SidebarProvider>
                 <AppSidebar />
-                <main className="w-full">
+                <main className="w-full bg-linear-to-br from-gray-50 to-gray-100">
                     <Outlet />
                 </main>
                 <Toaster position="top-right" />

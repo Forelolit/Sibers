@@ -126,7 +126,7 @@ export const ChatDetailPage: FC = () => {
                         )}
                     </div>
 
-                    <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-300 p-4">
+                    <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-300 p-4 rounded-t-xl">
                         <InputGroup>
                             <InputGroupInput
                                 placeholder="Chat..."

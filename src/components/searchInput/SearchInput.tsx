@@ -31,7 +31,7 @@ export const SearchInput: FC<SearchInputProps> = ({ className }) => {
             className={clsx(className, 'relative border border-neutral-300 w-full p-4 rounded-2xl mt-4')}>
             <InputGroup>
                 <InputGroupInput
-                    placeholder="Search..."
+                    placeholder="Search for users or channels..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     onFocus={() => setIsOpen(true)}

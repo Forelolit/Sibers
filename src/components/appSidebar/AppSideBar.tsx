@@ -16,26 +16,30 @@ import {
 } from '@/components/index';
 import { sidebarItems } from '@/constants/constans';
 import { useAuthStore } from '@/store/useAuthStore';
+import { Link } from 'react-router';
 
 export const AppSidebar: FC = () => {
     const isAuth = useAuthStore((state) => state.isAuth);
     const user = useAuthStore((state) => state.user);
     const logout = useAuthStore((state) => state.logout);
 
+    const visibleSidebarItems = sidebarItems.filter((item) => !item.isPrivate || isAuth);
+
     return (
         <Sidebar>
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {sidebarItems.map((item) => (
-                                <SidebarMenuItem key={item.title}>
+                            {visibleSidebarItems.map(({ title, url, icon: Icon }) => (
+                                <SidebarMenuItem key={title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
+                                        <Link to={url}>
+                                            <Icon />
+                                            <span>{title}</span>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -43,22 +47,23 @@ export const AppSidebar: FC = () => {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter>
-                <div className="flex justify-between items-center">
-                    {isAuth && (
-                        <>
-                            <div className="flex gap-2 items-center">
-                                <Avatar className="size-12">
-                                    <AvatarImage src={user?.photoURL} />
-                                    <AvatarFallback>{user?.displayName?.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                </Avatar>
-                                <p className="truncate max-w-20">{user?.displayName}</p>
-                            </div>
-                            <Button onClick={() => logout()}>Logout</Button>
-                        </>
-                    )}
-                </div>
-            </SidebarFooter>
+
+            {isAuth && user && (
+                <SidebarFooter>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 min-w-0">
+                            <Avatar className="size-12">
+                                <AvatarImage src={user.photoURL ?? ''} />
+                                <AvatarFallback>{user.displayName?.slice(0, 2).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+
+                            <p className="truncate max-w-20">{user.displayName}</p>
+                        </div>
+
+                        <Button onClick={logout}>Logout</Button>
+                    </div>
+                </SidebarFooter>
+            )}
         </Sidebar>
     );
 };

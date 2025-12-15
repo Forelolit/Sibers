@@ -13,3 +13,10 @@ export interface ChannelType {
     };
     createdAt: FieldValue;
 }
+
+export interface CreateChannelDto {
+    owner: string;
+    memberIds: string[];
+    name: string;
+    createdAt: FieldValue;
+}

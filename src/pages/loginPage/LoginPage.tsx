@@ -5,9 +5,12 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { auth, db } from '@/firebase/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import type { User } from '@/types/userInterface';
+import { useNavigate } from 'react-router';
+import { paths } from '@/constants/constans';
 
 export const LoginPage: FC = () => {
     const setUser = useAuthStore((state) => state.setUser);
+    const navigate = useNavigate();
 
     const signInWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
@@ -36,6 +39,9 @@ export const LoginPage: FC = () => {
             }
 
             setUser(userData);
+
+            navigate(paths.home);
+
             return firebaseUser;
         } catch (error) {
             console.error('signInWithGoogle', error);
@@ -45,9 +51,20 @@ export const LoginPage: FC = () => {
     return (
         <section>
             <Container>
-                <div className="flex flex-col justify-center items-center gap-4 h-[700px]">
-                    <h1 className="text-gray-700 text-3xl font-bold">Login</h1>
-                    <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+                <div className="h-[700px] flex justify-center items-center">
+                    <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-lg">
+                        <h1 className="mb-2 text-center text-2xl font-semibold text-gray-800">
+                            Welcome to Realtime Chat
+                        </h1>
+
+                        <p className="mb-6 text-center text-sm text-gray-500">
+                            Sign in to join channels and start messaging in real time
+                        </p>
+
+                        <Button onClick={signInWithGoogle} className="w-full">
+                            Sign in with Google
+                        </Button>
+                    </div>
                 </div>
             </Container>
         </section>

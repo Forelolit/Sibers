@@ -8,4 +8,3 @@ export const useGetChannelUsers = (memberIds: string[]) => {
         enabled: memberIds.length > 0,
     });
 };
-//FIXME установить

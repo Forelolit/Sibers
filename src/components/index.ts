@@ -22,3 +22,4 @@ export { ChatArticle } from './chatArticle/ChatArticle';
 export { RegisterRequired } from './registerRequired/RegisterRequired';
 export * from './ui/dialog';
 export { AddChannelDialog } from './addChannelDialog/AddChannelDialog';
+export * from './ui/dropdown-menu';

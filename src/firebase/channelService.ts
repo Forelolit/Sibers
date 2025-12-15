@@ -1,6 +1,5 @@
 import { db } from './firebase';
 import { addDoc, collection, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
-import type { QueryFunction } from '@tanstack/react-query';
 import type { ChannelType } from '@/types/channeInterface';
 import { userService } from './userService';
 import type { User } from '@/types/userInterface';
@@ -24,9 +23,7 @@ const createChannel = async (channelData: ChannelType): Promise<ChannelType> => 
     }
 };
 
-const getChannelsByIds: QueryFunction<ChannelType[]> = async ({ queryKey }) => {
-    const [, channelIds] = queryKey as [string, string[]];
-
+const getChannelsByIds = async (channelIds: string[]): Promise<ChannelType[]> => {
     if (!channelIds || channelIds.length === 0) {
         return [];
     }
@@ -37,8 +34,8 @@ const getChannelsByIds: QueryFunction<ChannelType[]> = async ({ queryKey }) => {
 
     return snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
-    })) as ChannelType[];
+        ...(doc.data() as Omit<ChannelType, 'id'>),
+    }));
 };
 
 export const getChannels = async (userId: string): Promise<ChannelType[]> => {

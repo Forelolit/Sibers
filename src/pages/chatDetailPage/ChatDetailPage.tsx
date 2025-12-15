@@ -2,20 +2,28 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
+    Button,
     Container,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
     InputGroup,
     InputGroupAddon,
     InputGroupButton,
     InputGroupInput,
     Separator,
     Skeleton,
+    Spinner,
 } from '@/components';
-import { channelService } from '@/firebase/channelService';
 import { messageService } from '@/firebase/messageService';
+import { useGetChannelById } from '@/hooks/useGetChannelById';
+import { useGetChannelUsers } from '@/hooks/useGetChannelUsers';
 import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useQuery } from '@tanstack/react-query';
-import { ArrowUpIcon } from 'lucide-react';
+import { ArrowUpIcon, Users } from 'lucide-react';
 import { useEffect, useRef, useState, type FC } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'sonner';
@@ -26,16 +34,9 @@ export const ChatDetailPage: FC = () => {
     const [inputMes, setInputMes] = useState('');
     const [sending, setSending] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    const { data: channel, isLoading } = useQuery({
-        queryKey: ['channel', slug],
-        queryFn: async () => {
-            if (!slug) return null;
-            const channels = await channelService.getChannelsByIds({ queryKey: ['channels', [slug]] });
-            return channels[0] || null;
-        },
-        enabled: !!slug,
-    });
+    const { data: channel, isLoading: channelLoading } = useGetChannelById(slug);
+    const memberIds = channel?.memberIds;
+    const { data: members, isLoading: membersLoading } = useGetChannelUsers(memberIds ?? []);
 
     const { messages } = useRealtimeMessages(slug || null);
 
@@ -70,28 +71,61 @@ export const ChatDetailPage: FC = () => {
         <section className="h-full overflow-y-auto">
             <Container>
                 <div className="relative h-screen flex flex-col justify-between">
-                    <div className="flex gap-3 items-center p-2 border-b bg-white">
-                        <Avatar className="size-12">
-                            <AvatarImage src={channel?.channelImage} />
-                            <AvatarFallback>
-                                {channel?.name ? (
-                                    channel.name.slice(0, 2).toUpperCase()
-                                ) : slug ? (
-                                    slug.slice(0, 2).toUpperCase()
-                                ) : (
-                                    <Skeleton className="h-12 w-12 rounded-full" />
+                    <div className="flex justify-between items-center p-2 border-b bg-white">
+                        <div className="flex gap-3 items-center">
+                            <Avatar className="size-12">
+                                <AvatarImage src={channel?.channelImage} />
+                                <AvatarFallback>
+                                    {channel?.name ? (
+                                        channel.name.slice(0, 2).toUpperCase()
+                                    ) : slug ? (
+                                        slug.slice(0, 2).toUpperCase()
+                                    ) : (
+                                        <Skeleton className="h-12 w-12 rounded-full" />
+                                    )}
+                                </AvatarFallback>
+                            </Avatar>
+
+                            <Separator orientation="vertical" className="h-6!" />
+
+                            <h2>{channel?.name || slug || <Skeleton className="h-4 w-[200px]" />}</h2>
+                        </div>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className="border border-neutral-800 p-1 rounded cursor-pointer">
+                                <Users />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>Channel members</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {membersLoading && (
+                                    <DropdownMenuItem className="flex justify-center">
+                                        <Spinner />
+                                    </DropdownMenuItem>
                                 )}
-                            </AvatarFallback>
-                        </Avatar>
-
-                        <Separator orientation="vertical" className="h-6!" />
-
-                        <h2>{channel?.name || slug || <Skeleton className="h-4 w-[200px]" />}</h2>
+                                {members?.map((m) => (
+                                    <DropdownMenuItem key={m.uid}>
+                                        <div className="w-full flex gap-2 justify-between">
+                                            <div className="flex gap-2 items-center">
+                                                <Avatar>
+                                                    <AvatarImage src={m.photoURL ?? ''} />
+                                                    <AvatarFallback>
+                                                        {m.displayName?.slice(0, 2).toUpperCase()}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <span className="truncate max-w-[200px]">{m.displayName}</span>
+                                            </div>
+                                            <Button>Kick</Button>
+                                        </div>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
 
                     <div className="h-fit flex flex-col gap-5">
                         <div className="flex-1 overflow-y-auto p-4">
-                            {isLoading ? (
+                            {channelLoading ? (
                                 <div className="flex items-center justify-center h-full">
                                     <p className="text-gray-500">Loading messages...</p>
                                 </div>
@@ -108,7 +142,7 @@ export const ChatDetailPage: FC = () => {
                                             currentUser?.uid === mes.senderId ? (
                                                 <div key={mes.id} className="flex flex-row-reverse gap-2 w-full">
                                                     <Avatar className="size-10 self-end">
-                                                        <AvatarImage src={currentUser.photoURL} />
+                                                        <AvatarImage src={currentUser.photoURL ?? ''} />
                                                         <AvatarFallback>
                                                             {currentUser.displayName?.slice(0, 2).toUpperCase() || 'ME'}
                                                         </AvatarFallback>

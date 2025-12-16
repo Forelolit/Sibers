@@ -21,14 +21,19 @@ import { Users } from 'lucide-react';
 import { useEffect, useState, type FC } from 'react';
 import { toast } from 'sonner';
 
-interface ChatDetailHeaderProps {
+interface ChannelDetailHeaderProps {
     channel: ChannelType | undefined | null;
     channelLoading: boolean;
     members: User[] | undefined;
     membersLoading: boolean;
 }
 
-export const ChatDetailHeader: FC<ChatDetailHeaderProps> = ({ channel, members, membersLoading, channelLoading }) => {
+export const ChannelDetailHeader: FC<ChannelDetailHeaderProps> = ({
+    channel,
+    members,
+    membersLoading,
+    channelLoading,
+}) => {
     const removeUser = userService.deleteUserFromChannelById;
     const currentUserId = useAuthStore((state) => state.user?.uid);
     const channelId = channel?.id ?? '';

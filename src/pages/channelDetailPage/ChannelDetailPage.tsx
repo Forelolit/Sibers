@@ -16,12 +16,14 @@ import { ArrowUpIcon } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState, type FC } from 'react';
 import { Navigate, useParams } from 'react-router';
 import { toast } from 'sonner';
-import { ChatDetailHeader } from './components/ChatDetailHeader';
-import { ChatDetailCurrentUserMessage } from './components/ChatDetailCurrentUserMessage';
-import { ChatDetailOtherUserMessage } from './components/ChatDetailOtherUserMessage';
+import {
+    ChannelDetailHeader,
+    ChannelDetailCurrentUserMessage,
+    ChannelDetailOtherUserMessage,
+} from './components/index';
 import { paths } from '@/constants/constans';
 
-export const ChatDetailPage: FC = () => {
+export const ChannelDetailPage: FC = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [inputMes, setInputMes] = useState('');
@@ -101,7 +103,7 @@ export const ChatDetailPage: FC = () => {
         <section>
             <Container>
                 <div className="relative min-h-screen flex flex-col gap-5">
-                    <ChatDetailHeader
+                    <ChannelDetailHeader
                         channel={channel}
                         members={members}
                         channelLoading={channelLoading}
@@ -123,7 +125,7 @@ export const ChatDetailPage: FC = () => {
 
                                         if (isCurrentUser) {
                                             return (
-                                                <ChatDetailCurrentUserMessage
+                                                <ChannelDetailCurrentUserMessage
                                                     key={mes.id}
                                                     currentUser={currentUser}
                                                     mes={mes}
@@ -131,7 +133,7 @@ export const ChatDetailPage: FC = () => {
                                             );
                                         }
 
-                                        return <ChatDetailOtherUserMessage key={mes.id} mes={mes} sender={sender} />;
+                                        return <ChannelDetailOtherUserMessage key={mes.id} mes={mes} sender={sender} />;
                                     })}
                             </div>
                         )}

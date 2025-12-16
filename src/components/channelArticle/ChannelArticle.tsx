@@ -4,12 +4,12 @@ import { Link } from 'react-router';
 import type { ChannelType } from '@/types/channeInterface';
 import { paths } from '@/constants/constans';
 
-interface ChatArticleProps {
+interface ChannelArticleProps {
     data: ChannelType;
     variant?: 'base' | 'outline';
 }
 
-export const ChatArticle: FC<ChatArticleProps> = ({ data, variant = 'base' }) => {
+export const ChannelArticle: FC<ChannelArticleProps> = ({ data, variant = 'base' }) => {
     return (
         <>
             {variant === 'base' && (

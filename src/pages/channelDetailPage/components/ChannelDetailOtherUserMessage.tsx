@@ -3,12 +3,12 @@ import type { Message } from '@/types/messageInterface';
 import type { User } from '@/types/userInterface';
 import type { FC } from 'react';
 
-interface ChatDetailOtherUserMessageProps {
+interface ChannelDetailOtherUserMessageProps {
     mes: Message;
     sender: User | null;
 }
 
-export const ChatDetailOtherUserMessage: FC<ChatDetailOtherUserMessageProps> = ({ mes, sender }) => {
+export const ChannelDetailOtherUserMessage: FC<ChannelDetailOtherUserMessageProps> = ({ mes, sender }) => {
     const senderFallback = !sender ? 'Deleted user' : sender.displayName;
 
     return (

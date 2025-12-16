@@ -18,7 +18,7 @@ export { Toaster } from './ui/sonner';
 export * from './ui/dialog';
 export { Skeleton } from './ui/skeleton';
 export { Spinner } from './ui/spinner';
-export { ChatArticle } from './chatArticle/ChatArticle';
+export { ChannelArticle } from './channelArticle/ChannelArticle';
 export { RegisterRequired } from './registerRequired/RegisterRequired';
 export * from './ui/dialog';
 export { AddChannelDialog } from './addChannelDialog/AddChannelDialog';

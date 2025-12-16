@@ -1,5 +1,5 @@
 import { useState, useRef, type FC } from 'react';
-import { ChatArticle, InputGroup, InputGroupAddon, InputGroupInput, Separator, Spinner } from '@/components';
+import { ChannelArticle, InputGroup, InputGroupAddon, InputGroupInput, Separator, Spinner } from '@/components';
 import { Search } from 'lucide-react';
 import clsx from 'clsx';
 import { useGetChannelsByIds } from '@/hooks/useGetChannelsByIds';
@@ -75,7 +75,7 @@ export const SearchInput: FC<SearchInputProps> = ({ className }) => {
                             <span className="text-neutral-600 ml-2 text-sm">Channels</span>
                             {filteredChannels.map((channel) => (
                                 <div key={channel.id} className="p-1 rounded-xl hover:bg-neutral-50 border">
-                                    <ChatArticle variant="outline" data={channel} />
+                                    <ChannelArticle variant="outline" data={channel} />
                                 </div>
                             ))}
                         </div>

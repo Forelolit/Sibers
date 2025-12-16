@@ -3,12 +3,12 @@ import type { Message } from '@/types/messageInterface';
 import type { User } from '@/types/userInterface';
 import type { FC } from 'react';
 
-interface ChatDetailCurrentUserMessageProps {
+interface ChannelDetailCurrentUserMessageProps {
     currentUser: User;
     mes: Message;
 }
 
-export const ChatDetailCurrentUserMessage: FC<ChatDetailCurrentUserMessageProps> = ({ currentUser, mes }) => {
+export const ChannelDetailCurrentUserMessage: FC<ChannelDetailCurrentUserMessageProps> = ({ currentUser, mes }) => {
     return (
         <div key={mes.id} className="flex flex-row-reverse gap-2 w-full">
             <Avatar className="size-10 self-end">

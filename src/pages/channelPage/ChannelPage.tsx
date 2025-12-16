@@ -1,6 +1,6 @@
 import {
     AddChannelDialog,
-    ChatArticle,
+    ChannelArticle,
     Container,
     RegisterRequired,
     SearchInput,
@@ -12,7 +12,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import clsx from 'clsx';
 import { type FC } from 'react';
 
-export const ChatPage: FC = () => {
+export const ChannelPage: FC = () => {
     const isAuth = useAuthStore((state) => state.isAuth);
     const { data: channels = [], isLoading } = useGetChannels();
 
@@ -42,7 +42,7 @@ export const ChatPage: FC = () => {
                             <ul className="flex flex-col gap-4 w-full">
                                 {channels?.map((c) => (
                                     <li key={c.id}>
-                                        <ChatArticle data={c} />
+                                        <ChannelArticle data={c} />
                                     </li>
                                 ))}
                             </ul>

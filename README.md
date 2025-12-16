@@ -30,7 +30,7 @@ This repository is designed as a practical example of how to build a realtime ap
 ### 1. Clone the repository
 
 ```bash
-git clone [https://github.com/forelolit/sibers.git](https://github.com/Forelolit/Sibers.git)
+git clone https://github.com/forelolit/sibers.git
 cd sibers
 ```
 

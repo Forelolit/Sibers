@@ -2,15 +2,22 @@ import { useEffect, useState } from 'react';
 import { messageService } from '@/firebase/messageService';
 import type { Message } from '@/types/messageInterface';
 
-export const useRealtimeMessages = (channelId: string | null) => {
+interface UseRealtimeMessagesResult {
+    messages: Message[];
+    loading: boolean;
+    error: Error | null;
+}
+
+export const useRealtimeMessages = (channelId: string | null): UseRealtimeMessagesResult => {
     const [messages, setMessages] = useState<Message[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         if (!channelId) {
             setMessages([]);
             setLoading(false);
+            setError(null);
             return;
         }
 
@@ -19,17 +26,16 @@ export const useRealtimeMessages = (channelId: string | null) => {
 
         const unsubscribe = messageService.subscribeToMessages(
             channelId,
-            (newMessages) => {
+            (newMessages: Message[]) => {
                 setMessages(newMessages);
                 setLoading(false);
             },
-            (err) => {
+            (err: Error) => {
                 setError(err);
                 setLoading(false);
             },
         );
 
-        // Cleanup subscription on unmount or channelId change
         return () => {
             unsubscribe();
         };

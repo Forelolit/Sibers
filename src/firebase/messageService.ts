@@ -1,6 +1,5 @@
 import { addDoc, collection, getDocs, limit, orderBy, query, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { auth, db } from './firebase';
-import type { QueryFunction } from '@tanstack/react-query';
 import type { Message } from '@/types/messageInterface';
 
 const MESSAGE_LIMIT = 50;
@@ -19,9 +18,7 @@ const sendMessage = async (channelId: string, message: string) => {
     return docRef.id;
 };
 
-const getMessages: QueryFunction<Message[], [string, string]> = async ({ queryKey }) => {
-    const [, channelId] = queryKey;
-
+export const getMessages = async (channelId: string): Promise<Message[]> => {
     if (!channelId) {
         return [];
     }
@@ -36,8 +33,8 @@ const getMessages: QueryFunction<Message[], [string, string]> = async ({ queryKe
 
     return snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
-    })) as Message[];
+        ...(doc.data() as Omit<Message, 'id'>),
+    }));
 };
 
 const subscribeToMessages = (

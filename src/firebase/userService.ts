@@ -14,6 +14,10 @@ import {
 } from 'firebase/firestore';
 import type { User } from '@/types/userInterface';
 
+/**
+ * Adds a channel ID to a user's document
+ * Creates the user document if it does not exist
+ */
 const addChannelToUser = async (userId: string, channelId: string) => {
     try {
         const userRef = doc(db, 'users', userId);
@@ -41,6 +45,9 @@ const addChannelToUser = async (userId: string, channelId: string) => {
     }
 };
 
+/**
+ * Adds a user to a channel and updates both user and channel documents
+ */
 const addUserToChannel = async (userId: string, channelId: string) => {
     try {
         const userRef = doc(db, 'users', userId);
@@ -72,6 +79,9 @@ const addUserToChannel = async (userId: string, channelId: string) => {
     }
 };
 
+/**
+ * Removes a user from a channel and updates both user and channel documents
+ */
 const deleteUserFromChannelById = async (userId: string, channelId: string) => {
     if (!userId || !channelId) return;
 
@@ -92,6 +102,10 @@ const deleteUserFromChannelById = async (userId: string, channelId: string) => {
     }
 };
 
+/**
+ * Fetches multiple users by their IDs
+ * Handles Firestore limitation for 'in' queries (max 10 items)
+ */
 const getUsersByIds = async (memberIds: string[]): Promise<User[]> => {
     if (!memberIds || memberIds.length === 0) {
         return [];
@@ -121,6 +135,10 @@ const getUsersByIds = async (memberIds: string[]): Promise<User[]> => {
     return users;
 };
 
+/**
+ * Searches users by a search token
+ * Returns up to 10 users matching the search
+ */
 export const searchUsers = async (search: string): Promise<User[]> => {
     if (!search.trim()) return [];
 
@@ -134,6 +152,10 @@ export const searchUsers = async (search: string): Promise<User[]> => {
     })) as User[];
 };
 
+/**
+ * User service object
+ * Provides functions for managing users and their channels
+ */
 export const userService = {
     addChannelToUser,
     getUsersByIds,

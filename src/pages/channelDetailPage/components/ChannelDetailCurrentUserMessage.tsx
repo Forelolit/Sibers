@@ -8,6 +8,12 @@ interface ChannelDetailCurrentUserMessageProps {
     mes: Message;
 }
 
+/**
+ * Component to render a message from the current user in the chat
+ * Includes user's avatar, display name fallback, timestamp, and message content
+ * Message bubble is styled differently to indicate it was sent by the current user
+ */
+
 export const ChannelDetailCurrentUserMessage: FC<ChannelDetailCurrentUserMessageProps> = ({ currentUser, mes }) => {
     return (
         <div key={mes.id} className="flex flex-row-reverse gap-2 w-full">

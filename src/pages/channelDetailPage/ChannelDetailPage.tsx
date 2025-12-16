@@ -23,6 +23,11 @@ import {
 } from './components/index';
 import { paths } from '@/constants/constans';
 
+/**
+ * Page component to display messages and members of a specific channel
+ * Handles sending messages, real-time updates, and user access control
+ */
+
 export const ChannelDetailPage: FC = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -36,28 +41,34 @@ export const ChannelDetailPage: FC = () => {
     const { data: members, isLoading: membersLoading } = useGetChannelUsers(memberIds ?? []);
     const { messages } = useRealtimeMessages(slug || null);
 
+    // Map of memberId -> user for quick lookup
     const membersMap = useMemo(() => {
         return new Map(members?.map((user) => [user.uid, user]));
     }, [members]);
 
+    // Scroll to the bottom of messages container
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
     };
 
+    // Automatically scrolls to the bottom when messages update or when entering a channel
     useEffect(() => {
         scrollToBottom();
     }, [membersLoading, messages]);
 
+    // Focus input after sending a message
     useEffect(() => {
         if (!sending) {
             inputRef.current?.focus();
         }
     }, [sending]);
 
+    // Redirects to login if the user is not authenticated, also used to prevent currentUser from being undefined
     if (!currentUser) {
         return <Navigate to={paths.login} replace />;
     }
 
+    // Show loading spinner while channel is loading
     if (channelLoading) {
         return (
             <div className="h-screen w-full flex justify-center items-center">
@@ -66,15 +77,21 @@ export const ChannelDetailPage: FC = () => {
         );
     }
 
+    // Redirect if channel does not exist
     if (!channel) {
         return <Navigate to={paths.channels} replace />;
     }
 
+    // Redirect if user is not a member of the channel
     const isMember = channel.memberIds.includes(currentUser.uid);
     if (!isMember) {
         return <Navigate to={paths.channels} replace />;
     }
 
+    /**
+     * Sends a message using messageService
+     * @param mes - Message text
+     */
     const sendMesHandler = async (mes: string) => {
         if (!mes.trim() || !slug) return;
 
@@ -92,6 +109,9 @@ export const ChannelDetailPage: FC = () => {
         }
     };
 
+    /**
+     * Handles pressing Enter in message input
+     */
     const enterMesHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -103,12 +123,15 @@ export const ChannelDetailPage: FC = () => {
         <section>
             <Container>
                 <div className="relative min-h-screen flex flex-col gap-5">
+                    {/* Channel header with members info */}
                     <ChannelDetailHeader
                         channel={channel}
                         members={members}
                         channelLoading={channelLoading}
                         membersLoading={membersLoading}
                     />
+
+                    {/* Messages container */}
                     <div className="flex-1 p-4">
                         {channelLoading || membersLoading ? (
                             <p className="text-gray-500 text-center">Loading messages...</p>
@@ -139,6 +162,7 @@ export const ChannelDetailPage: FC = () => {
                         )}
                     </div>
 
+                    {/* Input for sending new messages */}
                     <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-300 p-4 rounded-t-xl">
                         <InputGroup>
                             <InputGroupInput
@@ -166,6 +190,7 @@ export const ChannelDetailPage: FC = () => {
                         </InputGroup>
                     </div>
 
+                    {/* Dummy div to scroll into view */}
                     <div ref={messagesEndRef} />
                 </div>
             </Container>

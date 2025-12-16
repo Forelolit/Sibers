@@ -18,15 +18,23 @@ import { sidebarItems } from '@/constants/constans';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Link } from 'react-router';
 
-export const AppSidebar: FC = () => {
-    const isAuth = useAuthStore((state) => state.isAuth);
-    const user = useAuthStore((state) => state.user);
-    const logout = useAuthStore((state) => state.logout);
+/**
+ * AppSidebar component
+ * Renders the application's sidebar navigation.
+ * Shows public and private menu items depending on authentication state.
+ * Displays user info and logout button if authenticated.
+ */
 
+export const AppSidebar: FC = () => {
+    // Get auth state, current user and logout function from global store
+    const { isAuth, user, logout } = useAuthStore();
+
+    // Filter sidebar entities: show all public entity and private entity only for authenticated users
     const visibleSidebarItems = sidebarItems.filter((item) => !item.isPrivate || isAuth);
 
     return (
         <Sidebar>
+            {/* Sidebar main content */}
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Navigation</SidebarGroupLabel>
@@ -48,6 +56,7 @@ export const AppSidebar: FC = () => {
                 </SidebarGroup>
             </SidebarContent>
 
+            {/* Footer with user info and logout button, visible only if authenticated */}
             {isAuth && user && (
                 <SidebarFooter>
                     <div className="flex items-center justify-between">

@@ -8,6 +8,11 @@ interface ChannelDetailOtherUserMessageProps {
     sender: User | null;
 }
 
+/**
+ * Displays a single message from another user in a channel.
+ * Shows sender's avatar, name, message text, and timestamp.
+ */
+
 export const ChannelDetailOtherUserMessage: FC<ChannelDetailOtherUserMessageProps> = ({ mes, sender }) => {
     const senderFallback = !sender ? 'Deleted user' : sender.displayName;
 

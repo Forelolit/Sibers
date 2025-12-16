@@ -6,6 +6,12 @@ import type { User } from '@/types/userInterface';
 
 const BATCH_SIZE = 10;
 
+/**
+ * Creates a new channel in Firestore
+ * Adds the channel to the owner's list of channels
+ * @param channelData - Data for creating a new channel
+ * @returns The created channel with its generated ID
+ */
 const createChannel = async (channelData: CreateChannelDto): Promise<ChannelType> => {
     try {
         const docRef = await addDoc(collection(db, 'channels'), channelData);
@@ -16,6 +22,7 @@ const createChannel = async (channelData: CreateChannelDto): Promise<ChannelType
             id: docRef.id,
         };
 
+        // Add channel ID to owner's user document
         await userService.addChannelToUser(channelData.owner, docRef.id);
 
         return fullChannel;
@@ -25,6 +32,12 @@ const createChannel = async (channelData: CreateChannelDto): Promise<ChannelType
     }
 };
 
+/**
+ * Fetch channels by a list of IDs in batches
+ * Handles Firestore limitation for 'in' queries (max 10 items)
+ * @param channelIds - Array of channel IDs to fetch
+ * @returns Array of ChannelType objects
+ */
 export const getChannelsByIds = async (channelIds: string[]): Promise<ChannelType[]> => {
     if (channelIds.length === 0) return [];
 
@@ -48,6 +61,11 @@ export const getChannelsByIds = async (channelIds: string[]): Promise<ChannelTyp
     return results.flat();
 };
 
+/**
+ * Fetch all channels for a given user
+ * @param userId - ID of the user
+ * @returns Array of ChannelType objects the user belongs to
+ */
 export const getChannels = async (userId: string): Promise<ChannelType[]> => {
     const userSnap = await getDoc(doc(db, 'users', userId));
 
@@ -60,6 +78,9 @@ export const getChannels = async (userId: string): Promise<ChannelType[]> => {
     return getChannelsByIds(channelIds ?? []);
 };
 
+/**
+ * Service object to manage channel-related operations
+ */
 export const channelService = {
     createChannel,
     getChannelsByIds,

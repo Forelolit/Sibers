@@ -1,5 +1,9 @@
 import * as React from "react"
 
+/**
+ * ShadCn`s hook 
+ */ 
+
 const MOBILE_BREAKPOINT = 768
 
 export function useIsMobile() {

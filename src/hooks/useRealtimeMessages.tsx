@@ -8,6 +8,13 @@ interface UseRealtimeMessagesResult {
     error: Error | null;
 }
 
+/**
+ * Custom hook to subscribe to real-time messages of a channel
+ * Automatically updates messages state whenever new messages arrive
+ * @param channelId - ID of the channel to subscribe to
+ * @returns Object containing messages, loading state, and error
+ */
+
 export const useRealtimeMessages = (channelId: string | null): UseRealtimeMessagesResult => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -37,7 +44,7 @@ export const useRealtimeMessages = (channelId: string | null): UseRealtimeMessag
         );
 
         return () => {
-            unsubscribe();
+            unsubscribe(); // Cleanup subscription on unmount or channel change
         };
     }, [channelId]);
 

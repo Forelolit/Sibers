@@ -28,6 +28,11 @@ interface ChannelDetailHeaderProps {
     membersLoading: boolean;
 }
 
+/**
+ * Renders the header for a channel detail page, displaying channel info and member list.
+ * Supports kicking members if the current user is the channel owner.
+ */
+
 export const ChannelDetailHeader: FC<ChannelDetailHeaderProps> = ({
     channel,
     members,
@@ -40,12 +45,17 @@ export const ChannelDetailHeader: FC<ChannelDetailHeaderProps> = ({
 
     const [localMembers, setLocalMembers] = useState<User[]>([]);
 
+    // Update local members state whenever members prop changes
     useEffect(() => {
         if (members) {
             setLocalMembers(members);
         }
     }, [members]);
 
+    /**
+     * Handles removing a user from the channel.
+     * Updates the local member state optimistically and reverts if the operation fails.
+     */
     const handleKick = async (userId: string) => {
         const prevMembers = localMembers;
 
@@ -80,6 +90,7 @@ export const ChannelDetailHeader: FC<ChannelDetailHeaderProps> = ({
                 <h2>{!channel?.name && channelLoading ? <Skeleton className="h-4 w-[200px]" /> : channel?.name}</h2>
             </div>
 
+            {/* Dropdown for channel members */}
             <DropdownMenu>
                 <DropdownMenuTrigger className="border border-neutral-800 p-1 rounded cursor-pointer">
                     <Users />

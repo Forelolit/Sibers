@@ -4,6 +4,12 @@ import type { Message } from '@/types/messageInterface';
 
 const MESSAGE_LIMIT = 50;
 
+/**
+ * Send a new message to a channel
+ * @param channelId - ID of the channel
+ * @param message - Text content of the message
+ * @returns ID of the created message document
+ */
 const sendMessage = async (channelId: string, message: string) => {
     if (!auth.currentUser) {
         throw new Error('User not authenticated');
@@ -18,6 +24,11 @@ const sendMessage = async (channelId: string, message: string) => {
     return docRef.id;
 };
 
+/**
+ * Fetches messages ordered by creation time descending, limited to MESSAGE_LIMIT
+ * @param channelId - ID of the channel
+ * @returns Array of Message objects
+ */
 export const getMessages = async (channelId: string): Promise<Message[]> => {
     if (!channelId) {
         return [];
@@ -37,6 +48,11 @@ export const getMessages = async (channelId: string): Promise<Message[]> => {
     }));
 };
 
+/**
+ * Subscribe to real-time updates of messages in a channel
+ * Calls onMessagesUpdate whenever messages change
+ * Returns an unsubscribe function to stop listening
+ */
 const subscribeToMessages = (
     channelId: string,
     onMessagesUpdate: (messages: Message[]) => void,
@@ -66,6 +82,10 @@ const subscribeToMessages = (
     return unsubscribe;
 };
 
+/**
+ * Message service object
+ * Provides functions to send, fetch, and subscribe to messages
+ */
 export const messageService = {
     sendMessage,
     getMessages,

@@ -12,6 +12,12 @@ import { useAuthStore } from '@/store/useAuthStore';
 import clsx from 'clsx';
 import { type FC } from 'react';
 
+/**
+ * Page displaying a list of channels for authenticated users.
+ * Shows a search input, add channel dialog, and list of channels.
+ * Redirects to authentication prompt if the user is not signed in.
+ */
+
 export const ChannelPage: FC = () => {
     const isAuth = useAuthStore((state) => state.isAuth);
     const { data: channels = [], isLoading } = useGetChannels();
@@ -27,6 +33,7 @@ export const ChannelPage: FC = () => {
                     )}>
                     {isAuth && (
                         <>
+                            {/* Search input for channels and users */}
                             <SearchInput />
 
                             <AddChannelDialog />

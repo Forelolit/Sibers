@@ -3,6 +3,11 @@ import { paths } from '@/constants/constans';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 
+/**
+ * Content displayed for authenticated users on the dashboard or main page.
+ * Provides a heading, description, and navigation button to the channels page.
+ */
+
 export const AuthContent: FC = () => (
     <div className="flex flex-col gap-4">
         <div>

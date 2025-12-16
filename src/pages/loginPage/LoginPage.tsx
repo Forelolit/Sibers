@@ -8,10 +8,28 @@ import type { User } from '@/types/userInterface';
 import { useNavigate } from 'react-router';
 import { paths } from '@/constants/constans';
 
+/**
+ * Login page component.
+ * Provides authentication via Google Sign-In using Firebase Authentication.
+ * After successful login:
+ * - checks if the user exists in Firestore,
+ * - creates a new user document if it does not exist,
+ * - stores user data in the global auth store,
+ * - redirects the user to the home page.
+ */
+
 export const LoginPage: FC = () => {
+    // Stores authenticated user in global state
     const setUser = useAuthStore((state) => state.setUser);
+    // Navigation handler
     const navigate = useNavigate();
 
+    /**
+     * Handles Google authentication flow.
+     *
+     * Uses Firebase popup authentication, synchronizes user data
+     * with Firestore, and updates application state.
+     */
     const signInWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
 
@@ -24,6 +42,7 @@ export const LoginPage: FC = () => {
 
             let userData: User;
 
+            // Create user document if it does not exist
             if (!userSnap.exists()) {
                 userData = {
                     uid: firebaseUser.uid,

@@ -9,9 +9,18 @@ interface ChannelArticleProps {
     variant?: 'base' | 'outline';
 }
 
+/**
+ * ChannelArticle component
+ * Displays a single channel as an article with avatar and link username.
+ * Supports two variants:
+ *  - 'base': larger card with border and separator
+ *  - 'outline': compact version
+ */
+
 export const ChannelArticle: FC<ChannelArticleProps> = ({ data, variant = 'base' }) => {
     return (
         <>
+            {/* Base variant: larger card with border */}
             {variant === 'base' && (
                 <article key={data.id} className="flex gap-2 items-center border border-neutral-300 p-4 rounded-4xl">
                     <Avatar className="size-12">
@@ -27,6 +36,7 @@ export const ChannelArticle: FC<ChannelArticleProps> = ({ data, variant = 'base'
                 </article>
             )}
 
+            {/* Outline variant: compact card without border */}
             {variant === 'outline' && (
                 <article key={data.id} className="flex gap-2 items-center p-1">
                     <Avatar className="size-8">

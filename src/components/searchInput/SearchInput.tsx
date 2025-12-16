@@ -11,15 +11,25 @@ interface SearchInputProps {
     className?: string;
 }
 
+/**
+ * SearchInput component
+ * Provides a search input to find users or channels.
+ * Displays search results in a dropdown with options to invite users to channels.
+ */
+
 export const SearchInput: FC<SearchInputProps> = ({ className }) => {
     const [searchText, setSearchText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
+    // Current authenticated user's ID
     const currentUserId = useAuthStore((state) => state.user?.uid);
+
+    // Fetch channels and users
     const { data: channels = [], isLoading: isChannelsLoading } = useGetChannelsByIds();
     const { users = [], isLoading: isUsersLoading } = useSearchUsers(searchText);
 
+    // Filter channels by search text
     const filteredChannels = searchText
         ? channels.filter((c) => c.name.toLowerCase().includes(searchText.toLowerCase()))
         : [];
@@ -31,6 +41,7 @@ export const SearchInput: FC<SearchInputProps> = ({ className }) => {
         <div
             ref={containerRef}
             className={clsx(className, 'relative border border-neutral-300 w-full p-4 rounded-2xl mt-4')}>
+            {/* Search input with spinner or search icon */}
             <InputGroup>
                 <InputGroupInput
                     placeholder="Search for users or channels..."
@@ -41,8 +52,10 @@ export const SearchInput: FC<SearchInputProps> = ({ className }) => {
                 <InputGroupAddon>{isLoading ? <Spinner /> : <Search />}</InputGroupAddon>
             </InputGroup>
 
+            {/* Dropdown with search results */}
             {isOpen && searchText && hasResults && (
                 <div className="absolute top-20 left-0 z-10 w-full rounded-2xl border bg-neutral-100 p-2 grid gap-3">
+                    {/* User search results */}
                     {users.length > 0 && (
                         <div className="grid gap-2">
                             <span className="text-neutral-600 ml-2 text-sm">Users</span>
@@ -70,6 +83,7 @@ export const SearchInput: FC<SearchInputProps> = ({ className }) => {
                         </div>
                     )}
 
+                    {/* Channel search results */}
                     {filteredChannels.length > 0 && (
                         <div className="grid gap-2">
                             <span className="text-neutral-600 ml-2 text-sm">Channels</span>

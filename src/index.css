@@ -1,3 +1,11 @@
+/**
+ * shadcn/ui styles layered on top of Tailwind CSS.
+ *
+ * Tailwind provides the utility-first foundation,
+ * while shadcn/ui components rely on these variables
+ * for consistent theming and easy customization.
+ */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 

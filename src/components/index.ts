@@ -1,3 +1,8 @@
+/**
+ * public export file for UI components
+ * Re-exports all commonly used components to simplify imports across the application.
+ */
+
 export { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 export { Button, buttonVariants } from './ui/button';
 export { Input } from './ui/input';

@@ -62,6 +62,7 @@ http://localhost:5173
 * After signing in, create a new channel to start chatting.
 
  Invite members
+
 You can add users to your channel in one of the following ways
 * Search for users using the built-in search functionality and invite them directly.
 * Ask owner to add you to an existing channel.

@@ -55,11 +55,11 @@ http://localhost:5173
 ## Application Usage
 
 ### To start using the application, follow these steps:
-# Sign in with a Google account
+ Sign in with a Google account
 * Authenticate using your Google account to access the application features.
-# Create a channel
+ Create a channel
 * After signing in, create a new channel to start chatting.
-# Invite members
+ Invite members
 You can add users to your channel in one of the following ways
 * Search for users using the built-in search functionality and invite them directly.
 * Ask owner to add you to an existing channel.

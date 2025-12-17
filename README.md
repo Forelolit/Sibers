@@ -63,4 +63,5 @@ http://localhost:5173
 You can add users to your channel in one of the following ways
 * Search for users using the built-in search functionality and invite them directly.
 * Ask owner to add you to an existing channel.
+
 Once added to a channel, all members can interact according to the channel’s functionality.

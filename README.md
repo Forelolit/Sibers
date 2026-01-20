@@ -68,3 +68,9 @@ You can add users to your channel in one of the following ways
 * Ask owner to add you to an existing channel.
 
 Once added to a channel, all members can interact according to the channel’s functionality.
+
+![Снимок экрана 2026-01-03 210533](https://github.com/user-attachments/assets/3366afee-dbc1-4ab3-bd87-2d03e4472167)
+![Снимок экрана 2026-01-03 210359](https://github.com/user-attachments/assets/7bba54fd-bbc7-4a1d-9c36-4792d580d53c)
+![Снимок экрана 2026-01-03 210221](https://github.com/user-attachments/assets/9b8973ed-0020-4ef3-a014-a80407049338)
+![Снимок экрана 2026-01-03 210133](https://github.com/user-attachments/assets/dd13b3cd-598b-482c-84de-34078b430786)
+
